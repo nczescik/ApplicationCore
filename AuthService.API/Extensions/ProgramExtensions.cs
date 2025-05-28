@@ -1,10 +1,12 @@
 ﻿using AuthService.API.Security;
+using AuthService.Infrastructure;
 using AuthService.Infrastructure.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
+using Shared.Infrastructure.Messaging.Outbox;
+using Shared.Infrastructure.Messaging.Outbox.Repository;
 using Shared.Infrastructure.Messaging.RabbitMQ;
 using System.Text;
 
@@ -69,8 +71,10 @@ namespace AuthService.API.Extensions
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
             services
+                .AddScoped<IOutboxDbContext>(provider => provider.GetRequiredService<AuthDbContext>())
                 .AddScoped<IJwtTokenGenerator, JwtTokenGenerator>()
                 .AddScoped<IEventPublisher, RabbitMqEventPublisher>()
+                .AddScoped<IOutboxRepository, OutboxRepository>()
                 .AddScoped<IUserRepository, UserRepository>();
 
             return services;

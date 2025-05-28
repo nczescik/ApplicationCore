@@ -2,15 +2,17 @@
 using AuthService.Infrastructure;
 using AuthService.Settings;
 using Microsoft.EntityFrameworkCore;
+using Shared.Infrastructure.Messaging.Outbox;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
 
 builder.Services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerExt()
     .AddDbContext<AuthDbContext>(options =>
         options.UseInMemoryDatabase("AuthServiceDatabase"))
+    .AddHostedService<OutboxPublisher<AuthDbContext>>()
+    .AddEndpointsApiExplorer()
+    .AddSwaggerExt()
     .AddDependencyInjection()
     .AddRabbitMq(builder)
     .Configure<JwtSettings>(jwtSection)

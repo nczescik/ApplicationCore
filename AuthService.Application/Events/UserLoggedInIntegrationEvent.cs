@@ -4,6 +4,6 @@ namespace AuthService.Application.Events
 {
     public record UserLoggedInIntegrationEvent(string Username) : IIntegrationEvent
     {
-        public DateTime OccuredOn { get; } = DateTime.Now;
+        public DateTime OccuredOn { get; } = DateTime.UtcNow;
     }
 }
