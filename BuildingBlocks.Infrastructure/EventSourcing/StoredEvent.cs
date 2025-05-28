@@ -1,4 +1,6 @@
-﻿namespace BuildingBlocks.Infrastructure.EventSourcing
+﻿using BuildingBlocks.Domain.Common;
+
+namespace BuildingBlocks.Infrastructure.EventSourcing
 {
     public class StoredEvent
     {

@@ -10,16 +10,16 @@ namespace AuthService.Domain.Users
         public string PasswordHash { get; private set; } = string.Empty;
         public DateTime RegisteredAt { get; private set; }
 
-        private User() { }
+        public User() { }
 
-        public static User Register(string username, string email, string passwordHash)
+        public static User Create(string username, string email, string password)
         {
             var user = new User
             {
                 Id = Guid.NewGuid(),
                 Username = username,
                 Email = email,
-                PasswordHash = passwordHash
+                //PasswordHash = passwordHash
             };
 
             user.RaiseEvent(new UserCreatedDomainEvent(user.Id, user.Email, user.PasswordHash, DateTime.UtcNow));

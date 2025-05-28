@@ -1,5 +1,7 @@
 ﻿using AuthService.API.Security;
+using AuthService.Infrastructure.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
@@ -68,7 +70,8 @@ namespace AuthService.API.Extensions
         {
             services
                 .AddScoped<IJwtTokenGenerator, JwtTokenGenerator>()
-                .AddScoped<IEventPublisher, RabbitMqEventPublisher>();
+                .AddScoped<IEventPublisher, RabbitMqEventPublisher>()
+                .AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
