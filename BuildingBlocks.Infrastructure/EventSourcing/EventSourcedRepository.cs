@@ -28,7 +28,7 @@ namespace BuildingBlocks.Infrastructure.EventSourcing
             var aggregate = new TAggregate();
 
             var deserialized = events.Select(e =>
-                (IDomainEvent)JsonConvert.DeserializeObject(e.Data, Type.GetType(e.Type)!)!
+                (IDomainEvent)JsonConvert.DeserializeObject(e.Data, Type.GetType(e.EventType)!)!
             );
 
             aggregate.LoadFromHistory(deserialized);
@@ -41,7 +41,8 @@ namespace BuildingBlocks.Infrastructure.EventSourcing
             {
                 Id = Guid.NewGuid(),
                 AggregateId = aggregate.Id,
-                Type = aggregate.GetType().AssemblyQualifiedName!,
+                AggregateType = aggregate.GetType().AssemblyQualifiedName!,
+                EventType = e.GetType().AssemblyQualifiedName!,
                 Data = JsonConvert.SerializeObject(e),
                 OccurredOn = e.OccurredOn
             });

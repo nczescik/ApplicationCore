@@ -6,8 +6,9 @@ namespace BuildingBlocks.Infrastructure.EventSourcing
     {
         public Guid Id { get; set; } 
         public Guid AggregateId { get; set; }
-        public string Type { get; set; } = default!;
-        public string Data { get; set; } = default!;
+        public string AggregateType { get; set; } = string.Empty!;
+        public string EventType { get; set; } = string.Empty!;
+        public string Data { get; set; } = string.Empty!;
         public DateTime OccurredOn { get; set; }
     }
 }

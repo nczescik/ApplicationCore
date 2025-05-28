@@ -42,7 +42,7 @@ namespace AuthService.API.Controllers
             await _userRepository.SaveAsync(user);
 
             _eventPublisher.Publish(new UserRegisteredIntegrationEvent(request.Username));
-            return Ok();
+            return Ok(user.Id);
         }
     }
 }

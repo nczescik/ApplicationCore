@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Common;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BuildingBlocks.Infrastructure.EventSourcing
 {
@@ -17,7 +16,8 @@ namespace BuildingBlocks.Infrastructure.EventSourcing
             {
                 builder.HasKey(e => e.Id);
                 builder.Property(e => e.AggregateId).IsRequired();
-                builder.Property(e => e.Type).IsRequired();
+                builder.Property(e => e.AggregateType).IsRequired();
+                builder.Property(e => e.EventType).IsRequired();
                 builder.Property(e => e.Data).IsRequired();
                 builder.Property(e => e.OccurredOn).IsRequired();
             });
