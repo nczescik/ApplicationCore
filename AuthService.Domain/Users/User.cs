@@ -1,9 +1,9 @@
-﻿using AuthService.Domain.Users.Events;
+﻿using AuthService.Domain.Users.DomainEvents;
 using BuildingBlocks.Domain.Common;
 
 namespace AuthService.Domain.Users
 {
-    public class User : AggregateRoot<Guid>
+    public class User : AggregateRoot
     {
         public string Username { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
@@ -12,10 +12,15 @@ namespace AuthService.Domain.Users
 
         private User() { }
 
-        public static User Register(Guid id, string email, string passwordHash)
+        public static User Register(string email, string passwordHash)
         {
-            var user = new User();
-            user.RaiseEvent(new UserRegisteredEvent(id, email, passwordHash, DateTime.UtcNow));
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Email = email,
+                PasswordHash = passwordHash
+            };
+            user.RaiseEvent(new UserRegisteredDomainEvent(user.Id, user.Email, user.PasswordHash, DateTime.UtcNow));
             return user;
         }
 
@@ -23,7 +28,7 @@ namespace AuthService.Domain.Users
         {
             switch (@event)
             {
-                case UserRegisteredEvent e:
+                case UserRegisteredDomainEvent e:
                     Id = e.UserId;
                     Email = e.Email;
                     PasswordHash = e.PasswordHash;

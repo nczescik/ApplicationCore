@@ -1,7 +1,7 @@
 ﻿
 namespace BuildingBlocks.Domain.Common
 {
-    public interface IEventSourcedRepository<TAggregate, Guid> where TAggregate : AggregateRoot<Guid>
+    public interface IEventSourcedRepository<TAggregate> where TAggregate : AggregateRoot
     {
         Task<TAggregate?> GetByIdAsync(Guid id);
         Task SaveAsync(TAggregate aggregate);

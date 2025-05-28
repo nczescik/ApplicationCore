@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.Domain.Common
 {
-    public abstract class AggregateRoot<Guid>
+    public abstract class AggregateRoot
     {
         private readonly List<IEvent> _uncommittedEvents = new();
 
