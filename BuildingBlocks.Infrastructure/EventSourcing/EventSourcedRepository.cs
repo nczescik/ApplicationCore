@@ -29,7 +29,7 @@ namespace BuildingBlocks.Infrastructure.EventSourcing
                 var aggregate = new TAggregate();
 
                 var deserialized = events.Select(e =>
-                    (IEvent)JsonSerializer.Deserialize(e.Data, Type.GetType(e.Type)!)!
+                    (IDomainEvent)JsonSerializer.Deserialize(e.Data, Type.GetType(e.Type)!)!
                 );
 
                 aggregate.LoadFromHistory(deserialized);

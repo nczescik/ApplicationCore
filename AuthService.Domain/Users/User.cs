@@ -12,23 +12,25 @@ namespace AuthService.Domain.Users
 
         private User() { }
 
-        public static User Register(string email, string passwordHash)
+        public static User Register(string username, string email, string passwordHash)
         {
             var user = new User
             {
                 Id = Guid.NewGuid(),
+                Username = username,
                 Email = email,
                 PasswordHash = passwordHash
             };
-            user.RaiseEvent(new UserRegisteredDomainEvent(user.Id, user.Email, user.PasswordHash, DateTime.UtcNow));
+
+            user.RaiseEvent(new UserCreatedDomainEvent(user.Id, user.Email, user.PasswordHash, DateTime.UtcNow));
             return user;
         }
 
-        protected override void Apply(IEvent @event)
+        protected override void Apply(IDomainEvent @event)
         {
             switch (@event)
             {
-                case UserRegisteredDomainEvent e:
+                case UserCreatedDomainEvent e:
                     Id = e.UserId;
                     Email = e.Email;
                     PasswordHash = e.PasswordHash;

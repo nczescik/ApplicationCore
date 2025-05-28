@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.Domain.Common
 {
-    public interface IEvent
+    public interface IDomainEvent
     {
         DateTime OccurredOn { get; }
     }

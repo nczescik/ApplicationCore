@@ -2,21 +2,21 @@
 {
     public abstract class AggregateRoot
     {
-        private readonly List<IEvent> _uncommittedEvents = new();
+        private readonly List<IDomainEvent> _uncommittedEvents = new();
 
         public Guid Id { get; protected set; } = default!;
 
-        public IReadOnlyCollection<IEvent> UncommittedEvents => _uncommittedEvents.AsReadOnly();
+        public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _uncommittedEvents.AsReadOnly();
 
         public void MarkEventsAsCommitted() => _uncommittedEvents.Clear();
 
-        protected void RaiseEvent(IEvent @event)
+        protected void RaiseEvent(IDomainEvent @event)
         {
             Apply(@event);
             _uncommittedEvents.Add(@event);
         }
 
-        public void LoadFromHistory(IEnumerable<IEvent> history)
+        public void LoadFromHistory(IEnumerable<IDomainEvent> history)
         {
             foreach (var e in history)
             {
@@ -24,6 +24,6 @@
             }
         }
 
-        protected abstract void Apply(IEvent @event);
+        protected abstract void Apply(IDomainEvent @event);
     }
 }

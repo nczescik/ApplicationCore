@@ -23,7 +23,7 @@ namespace AuthService.API.Controllers
         public IActionResult Login([FromBody] LoginRequest request)
         {
             var token = _tokenGenerator.GenerateToken(request.Username, "User");
-            _eventPublisher.Publish(new UserLoggedInEvent(request.Username, DateTime.UtcNow));
+            _eventPublisher.Publish(new UserLoggedInIntegrationEvent(request.Username, DateTime.UtcNow));
             return Ok(new { token });
         }
     }

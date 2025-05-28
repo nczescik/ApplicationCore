@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0CC61D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Infrastructure", "BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj", "{707E1045-CD98-43D2-ACE8-92FAA27E048A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Application", "BuildingBlocks.Application\BuildingBlocks.Application.csproj", "{90812C2F-C2DA-43D8-8102-BCE6FCEEE286}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{707E1045-CD98-43D2-ACE8-92FAA27E048A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{707E1045-CD98-43D2-ACE8-92FAA27E048A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{707E1045-CD98-43D2-ACE8-92FAA27E048A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90812C2F-C2DA-43D8-8102-BCE6FCEEE286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90812C2F-C2DA-43D8-8102-BCE6FCEEE286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90812C2F-C2DA-43D8-8102-BCE6FCEEE286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90812C2F-C2DA-43D8-8102-BCE6FCEEE286}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{ABB45CFE-E13D-4F11-AAC3-3085FA1B764C} = {2B695C4E-C58D-4CB8-8762-C72C5CF6A080}
 		{A224E6E6-FF2B-4041-B06B-CB81C5E37FA8} = {0CC61D42-8357-4E1B-87A4-A9FEF08E0E8B}
 		{707E1045-CD98-43D2-ACE8-92FAA27E048A} = {2B695C4E-C58D-4CB8-8762-C72C5CF6A080}
+		{90812C2F-C2DA-43D8-8102-BCE6FCEEE286} = {2B695C4E-C58D-4CB8-8762-C72C5CF6A080}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2B94F9C-BEC8-4D29-AA5A-D95F355E1670}
