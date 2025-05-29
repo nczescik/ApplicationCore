@@ -1,6 +1,6 @@
 ﻿using AuthService.Domain.Users;
 
-namespace AuthService.Infrastructure.Users
+namespace AuthService.Infrastructure.Persistance.Users
 {
     public interface IUserRepository
     {

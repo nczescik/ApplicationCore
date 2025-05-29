@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace AuthService.API.Security
+namespace AuthService.Infrastructure.Security.JWT
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
@@ -32,6 +32,4 @@ namespace AuthService.API.Security
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
-
-
 }

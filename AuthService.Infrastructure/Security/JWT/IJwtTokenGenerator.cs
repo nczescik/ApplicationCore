@@ -1,4 +1,4 @@
-﻿namespace AuthService.API.Security
+﻿namespace AuthService.Infrastructure.Security.JWT
 {
     public interface IJwtTokenGenerator
     {

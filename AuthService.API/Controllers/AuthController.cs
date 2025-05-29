@@ -1,14 +1,8 @@
 ﻿using AuthService.Application.Authentication.Commands.Login;
 using AuthService.Application.DTOs;
-using AuthService.Application.User.Events;
-using AuthService.Infrastructure.Users;
+using AuthService.Application.User.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Shared.Infrastructure.Messaging.Outbox;
-using Shared.Infrastructure.Messaging.Outbox.Repository;
-using Shared.Infrastructure.Messaging.RabbitMQ;
-using UserEntity = AuthService.Domain.Users.User;
 
 namespace AuthService.API.Controllers
 {
@@ -16,19 +10,12 @@ namespace AuthService.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IOutboxRepository _outboxRepository;
         private readonly IMediator _mediator;
 
         public AuthController(
-            IEventPublisher eventPublisher,
-            IUserRepository userRepository,
-            IOutboxRepository outboxRepository,
             IMediator mediator
             )
         {
-            _userRepository = userRepository;
-            _outboxRepository = outboxRepository;
             _mediator = mediator;
         }
 
@@ -48,25 +35,9 @@ namespace AuthService.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
         {
-            var user = UserEntity.Create(request.Username, request.Email, request.Password);
+            var userId = await _mediator.Send(new CreateUserCommand(request.Username, request.Email, request.Password), cancellationToken);
 
-            //TODO: transaction scope in CQRS handler
-            await _userRepository.SaveAsync(user, cancellationToken);
-
-            var integrationEvent = new UserRegisteredIntegrationEvent(user.Username);
-            var outboxMessage = new OutboxMessage
-            {
-                Id = Guid.NewGuid(),
-                EventType = integrationEvent.GetType().AssemblyQualifiedName!,
-                Data = JsonConvert.SerializeObject(integrationEvent),
-                OccurredOn = DateTime.UtcNow
-            };
-
-            await _outboxRepository.AddAsync(outboxMessage);
-            await _outboxRepository.SaveAsync();
-            // end of transaction scope
-
-            return Ok(user.Id);
+            return Ok(userId);
         }
     }
 }

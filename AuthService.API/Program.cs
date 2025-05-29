@@ -1,11 +1,12 @@
 ﻿using AuthService.API.Extensions;
-using AuthService.Infrastructure;
-using AuthService.Settings;
+using AuthService.Infrastructure.Persistance;
+using AuthService.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Messaging.Outbox;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
+var jwtSecretKey = jwtSection.GetValue<string>("SecretKey")!;
 
 builder.Services
     .AddDbContext<AuthDbContext>(options =>
@@ -17,7 +18,7 @@ builder.Services
     .AddMediatRExt()
     .AddRabbitMq(builder)
     .Configure<JwtSettings>(jwtSection)
-    .AddAuthenticationExt(jwtSection.Key)
+    .AddAuthenticationExt(jwtSecretKey)
     .AddControllers();
 
 var app = builder.Build();

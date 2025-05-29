@@ -1,5 +1,5 @@
-﻿using AuthService.API.Security;
-using AuthService.Application.User.Events;
+﻿using AuthService.Application.User.Events;
+using AuthService.Infrastructure.Security.JWT;
 using MediatR;
 using Newtonsoft.Json;
 using Shared.Infrastructure.Messaging.Outbox;

@@ -1,4 +1,4 @@
-﻿using AuthService.Infrastructure.Users;
+﻿using AuthService.Infrastructure.Persistance.Users;
 using MediatR;
 
 namespace AuthService.Application.User.Queries.GetUser

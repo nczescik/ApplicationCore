@@ -1,8 +1,8 @@
-﻿using AuthService.API.Security;
-using AuthService.Application.Authentication.Commands.Login;
+﻿using AuthService.Application.Authentication.Commands.Login;
 using AuthService.Application.User.Queries.GetUser;
-using AuthService.Infrastructure;
-using AuthService.Infrastructure.Users;
+using AuthService.Infrastructure.Persistance;
+using AuthService.Infrastructure.Persistance.Users;
+using AuthService.Infrastructure.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

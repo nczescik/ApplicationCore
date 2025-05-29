@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Messaging.Outbox;
 
-namespace AuthService.Infrastructure
+namespace AuthService.Infrastructure.Persistance
 {
     public class AuthDbContext : EventStoreDbContext, IOutboxDbContext
     {
