@@ -1,4 +1,4 @@
-﻿using AuthService.API.Security;
+﻿using AuthService.Application.Authentication.Commands.Login;
 using AuthService.Application.DTOs;
 using AuthService.Application.User.Events;
 using AuthService.Infrastructure.Users;
@@ -16,40 +16,42 @@ namespace AuthService.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IJwtTokenGenerator _tokenGenerator;
         private readonly IUserRepository _userRepository;
         private readonly IOutboxRepository _outboxRepository;
-        private readonly IMediator _mediator;   
+        private readonly IMediator _mediator;
 
         public AuthController(
-            IJwtTokenGenerator tokenGenerator, 
             IEventPublisher eventPublisher,
             IUserRepository userRepository,
             IOutboxRepository outboxRepository,
             IMediator mediator
             )
         {
-            _tokenGenerator = tokenGenerator;
             _userRepository = userRepository;
             _outboxRepository = outboxRepository;
             _mediator = mediator;
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
-            var token = _tokenGenerator.GenerateToken(request.Username, "User");
-            //_eventPublisher.Publish(new UserLoggedInIntegrationEvent(request.Username));
+            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+            {
+                return BadRequest("Invalid login request.");
+            }
+
+            var token = await _mediator.Send(new LoginCommand(request.Username, request.Password), cancellationToken);
+
             return Ok(new { token });
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
         {
             var user = UserEntity.Create(request.Username, request.Email, request.Password);
 
             //TODO: transaction scope in CQRS handler
-            await _userRepository.SaveAsync(user);
+            await _userRepository.SaveAsync(user, cancellationToken);
 
             var integrationEvent = new UserRegisteredIntegrationEvent(user.Username);
             var outboxMessage = new OutboxMessage

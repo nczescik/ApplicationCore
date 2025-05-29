@@ -1,4 +1,5 @@
 ﻿using AuthService.API.Security;
+using AuthService.Application.Authentication.Commands.Login;
 using AuthService.Application.User.Queries.GetUser;
 using AuthService.Infrastructure;
 using AuthService.Infrastructure.Users;
@@ -83,7 +84,11 @@ namespace AuthService.API.Extensions
         }
         public static IServiceCollection AddMediatRExt(this IServiceCollection services)
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetUserQuery>());
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining<LoginCommand>();
+                cfg.RegisterServicesFromAssemblyContaining<GetUserQuery>();
+            });
             return services;
         }
 
