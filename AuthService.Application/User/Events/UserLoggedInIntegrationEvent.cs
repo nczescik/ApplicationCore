@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Application.Common;
 
-namespace AuthService.Application.Events
+namespace AuthService.Application.User.Events
 {
     public record UserLoggedInIntegrationEvent(string Username) : IIntegrationEvent
     {

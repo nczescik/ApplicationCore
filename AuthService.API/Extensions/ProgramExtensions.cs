@@ -1,4 +1,5 @@
 ﻿using AuthService.API.Security;
+using AuthService.Application.User.Queries.GetUser;
 using AuthService.Infrastructure;
 using AuthService.Infrastructure.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +10,7 @@ using Shared.Infrastructure.Messaging.Outbox;
 using Shared.Infrastructure.Messaging.Outbox.Repository;
 using Shared.Infrastructure.Messaging.RabbitMQ;
 using System.Text;
+
 
 namespace AuthService.API.Extensions
 {
@@ -77,6 +79,11 @@ namespace AuthService.API.Extensions
                 .AddScoped<IOutboxRepository, OutboxRepository>()
                 .AddScoped<IUserRepository, UserRepository>();
 
+            return services;
+        }
+        public static IServiceCollection AddMediatRExt(this IServiceCollection services)
+        {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetUserQuery>());
             return services;
         }
 

@@ -1,4 +1,5 @@
-﻿using AuthService.Infrastructure.Users;
+﻿using AuthService.Application.User.Queries.GetUser;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.API.Controllers
@@ -7,24 +8,23 @@ namespace AuthService.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IMediator _mediator;
 
         public UsersController(
-            IUserRepository userRepository
+            IMediator mediator
             )
         {
-            _userRepository = userRepository;
+            _mediator = mediator;
         }
 
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-
-            if (user == null)
+            var userDto = await _mediator.Send(new GetUserQuery { UserId = id });
+            if (userDto == null)
                 return NotFound();
 
-            return Ok(user);
+            return Ok(userDto);
         }
     }
 }

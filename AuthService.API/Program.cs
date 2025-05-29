@@ -14,6 +14,7 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerExt()
     .AddDependencyInjection()
+    .AddMediatRExt()
     .AddRabbitMq(builder)
     .Configure<JwtSettings>(jwtSection)
     .AddAuthenticationExt(jwtSection.Key)

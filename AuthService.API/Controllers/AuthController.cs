@@ -1,7 +1,8 @@
 ﻿using AuthService.API.Security;
 using AuthService.Application.DTOs;
-using AuthService.Application.Events;
+using AuthService.Application.User.Events;
 using AuthService.Infrastructure.Users;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Infrastructure.Messaging.Outbox;
@@ -18,17 +19,20 @@ namespace AuthService.API.Controllers
         private readonly IJwtTokenGenerator _tokenGenerator;
         private readonly IUserRepository _userRepository;
         private readonly IOutboxRepository _outboxRepository;
+        private readonly IMediator _mediator;   
 
         public AuthController(
             IJwtTokenGenerator tokenGenerator, 
             IEventPublisher eventPublisher,
             IUserRepository userRepository,
-            IOutboxRepository outboxRepository
+            IOutboxRepository outboxRepository,
+            IMediator mediator
             )
         {
             _tokenGenerator = tokenGenerator;
             _userRepository = userRepository;
             _outboxRepository = outboxRepository;
+            _mediator = mediator;
         }
 
         [HttpPost("login")]
