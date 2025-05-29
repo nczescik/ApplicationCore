@@ -1,7 +1,5 @@
-﻿using AuthService.API.Security;
-using AuthService.Infrastructure.Users;
+﻿using AuthService.Infrastructure.Users;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Infrastructure.Messaging.RabbitMQ;
 
 namespace AuthService.API.Controllers
 {
@@ -9,18 +7,12 @@ namespace AuthService.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IJwtTokenGenerator _tokenGenerator;
-        private readonly IEventPublisher _eventPublisher;
         private readonly IUserRepository _userRepository;
 
         public UsersController(
-            IJwtTokenGenerator tokenGenerator,
-            IEventPublisher eventPublisher,
             IUserRepository userRepository
             )
         {
-            _tokenGenerator = tokenGenerator;
-            _eventPublisher = eventPublisher;
             _userRepository = userRepository;
         }
 
