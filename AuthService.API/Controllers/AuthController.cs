@@ -43,6 +43,8 @@ namespace AuthService.API.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var user = UserEntity.Create(request.Username, request.Email, request.Password);
+
+            //TODO: transaction scope in CQRS handler
             await _userRepository.SaveAsync(user);
 
             var integrationEvent = new UserRegisteredIntegrationEvent(user.Username);
@@ -56,6 +58,7 @@ namespace AuthService.API.Controllers
 
             await _outboxRepository.AddAsync(outboxMessage);
             await _outboxRepository.SaveAsync();
+            // end of transaction scope
 
             return Ok(user.Id);
         }
