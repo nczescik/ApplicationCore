@@ -5,6 +5,7 @@ using Shared.Infrastructure.Messaging.Outbox.Repository;
 using AuthService.Application.User.Events;
 using AuthService.Application.User.Commands.CreateUser;
 using AuthService.Infrastructure.Persistance.Users;
+using System.Transactions;
 
 namespace AuthService.Application.Users.Commands.CreateUser
 {
@@ -26,21 +27,24 @@ namespace AuthService.Application.Users.Commands.CreateUser
         {
             var user = Domain.Users.User.Create(request.Username, request.Email, request.Password);
 
-            //TODO: transaction scope
-            await _userRepository.SaveAsync(user, cancellationToken);
-
-            var integrationEvent = new UserRegisteredIntegrationEvent(user.Username);
-            var outboxMessage = new OutboxMessage
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                Id = Guid.NewGuid(),
-                EventType = integrationEvent.GetType().AssemblyQualifiedName!,
-                Data = JsonConvert.SerializeObject(integrationEvent),
-                OccurredOn = DateTime.UtcNow
-            };
+                await _userRepository.SaveAsync(user, cancellationToken);
 
-            await _outboxRepository.AddAsync(outboxMessage);
-            await _outboxRepository.SaveAsync();
-            // end of transaction scope
+                var integrationEvent = new UserRegisteredIntegrationEvent(user.Username);
+                var outboxMessage = new OutboxMessage
+                {
+                    Id = Guid.NewGuid(),
+                    EventType = integrationEvent.GetType().AssemblyQualifiedName!,
+                    Data = JsonConvert.SerializeObject(integrationEvent),
+                    OccurredOn = DateTime.UtcNow
+                };
+
+                await _outboxRepository.AddAsync(outboxMessage, cancellationToken);
+                await _outboxRepository.SaveAsync(cancellationToken);
+
+                scope.Complete();
+            }
 
             return user.Id;
         }
