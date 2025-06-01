@@ -22,7 +22,7 @@ namespace AuthService.Domain.Users
                 //PasswordHash = passwordHash
             };
 
-            user.RaiseEvent(new UserCreatedDomainEvent(user.Id, user.Email, user.PasswordHash, DateTime.UtcNow));
+            user.RaiseEvent(new UserCreatedDomainEvent(user.Id, user.Username, user.Email, user.PasswordHash, DateTime.UtcNow));
             return user;
         }
 
@@ -33,6 +33,7 @@ namespace AuthService.Domain.Users
                 case UserCreatedDomainEvent e:
                     Id = e.UserId;
                     Email = e.Email;
+                    Username = e.Username;
                     PasswordHash = e.PasswordHash;
                     RegisteredAt = e.RegisteredAt;
                     break;
