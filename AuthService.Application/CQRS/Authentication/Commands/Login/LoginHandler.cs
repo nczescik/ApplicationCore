@@ -1,5 +1,4 @@
-﻿using AuthService.Application.CQRS.User;
-using AuthService.Application.CQRS.User.Events;
+﻿using AuthService.Application.CQRS.User.Events;
 using AuthService.Infrastructure.Security.JWT;
 using MediatR;
 using Newtonsoft.Json;
@@ -11,17 +10,14 @@ namespace AuthService.Application.CQRS.Authentication.Commands.Login
     {
         private readonly IJwtTokenGenerator _tokenGenerator;
         private readonly IOutboxRepository _outboxRepository;
-        private readonly IUserRepository _userRepository;
 
         public LoginCommandHandler(
             IJwtTokenGenerator tokenGenerator,
-            IOutboxRepository outboxRepository,
-            IUserRepository userRepository
+            IOutboxRepository outboxRepository
             )
         {
             _tokenGenerator = tokenGenerator;
             _outboxRepository = outboxRepository;
-            _userRepository = userRepository;
         }
 
         public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
