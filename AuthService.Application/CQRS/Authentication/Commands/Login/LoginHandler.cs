@@ -26,6 +26,7 @@ namespace AuthService.Application.CQRS.Authentication.Commands.Login
 
         public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
+            //TODO: get user from Projection
             var token = _tokenGenerator.GenerateToken(request.Username, ["User"]);
             var integrationEvent = new UserLoggedInIntegrationEvent(request.Username);
             var outboxMessage = new OutboxMessage
