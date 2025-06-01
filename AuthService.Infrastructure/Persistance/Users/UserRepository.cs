@@ -12,11 +12,5 @@ namespace AuthService.Infrastructure.Persistance.Users
         {
             _dbContext = dbContext;
         }
-
-        public Task<User?> GetUserByUsernameAsync(string username, CancellationToken cancellationToken)
-        {
-            return _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
-        }
     }
 }
