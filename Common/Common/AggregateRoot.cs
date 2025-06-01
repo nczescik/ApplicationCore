@@ -1,10 +1,11 @@
-﻿namespace BuildingBlocks.Domain.Common
+﻿
+namespace BuildingBlocks.Domain.Common
 {
-    public abstract class AggregateRoot
+    public abstract class AggregateRoot : Entity
     {
         private readonly List<IDomainEvent> _uncommittedEvents = new();
 
-        public Guid Id { get; protected set; } = default!;
+        protected AggregateRoot() : base() { }
 
         public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _uncommittedEvents.AsReadOnly();
 

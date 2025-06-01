@@ -12,13 +12,23 @@ namespace AuthService.Infrastructure.Security.JWT
 
         public JwtTokenGenerator(IConfiguration config) => _config = config;
 
-        public string GenerateToken(string username, string role)
+        public string GenerateToken(string username, string[] roles)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, role)
-        };
+                new Claim(ClaimTypes.Name, username)
+            };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var permissions = new[] { "users.read" };
+            foreach (var permission in permissions)
+            {
+                claims.Add(new Claim("permission", permission));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:SecretKey"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -1,7 +1,6 @@
-﻿using AuthService.Infrastructure.Persistance.Users;
-using MediatR;
+﻿using MediatR;
 
-namespace AuthService.Application.User.Queries.GetUser
+namespace AuthService.Application.CQRS.User.Queries.GetUser
 {
     public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
     {
@@ -16,13 +15,14 @@ namespace AuthService.Application.User.Queries.GetUser
         {
             //TODO: Projection
             var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
-            if (user == null)
+            if (user is null)
                 throw new KeyNotFoundException($"User with ID {request.UserId} not found.");
 
             return new UserDto
             {
                 Id = user.Id,
-                Email = user.Email
+                Email = user.Email,
+                Username = user.Username
             };
         }
     }

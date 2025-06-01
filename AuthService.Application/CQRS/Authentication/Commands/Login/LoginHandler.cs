@@ -1,29 +1,32 @@
-﻿using AuthService.Application.User.Events;
+﻿using AuthService.Application.CQRS.User;
+using AuthService.Application.CQRS.User.Events;
 using AuthService.Infrastructure.Security.JWT;
 using MediatR;
 using Newtonsoft.Json;
-using Shared.Infrastructure.Messaging.Outbox;
-using Shared.Infrastructure.Messaging.Outbox.Repository;
+using Shared.Application.Messaging.Outbox;
 
-namespace AuthService.Application.Authentication.Commands.Login
+namespace AuthService.Application.CQRS.Authentication.Commands.Login
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
     {
         private readonly IJwtTokenGenerator _tokenGenerator;
         private readonly IOutboxRepository _outboxRepository;
+        private readonly IUserRepository _userRepository;
 
         public LoginCommandHandler(
             IJwtTokenGenerator tokenGenerator,
-            IOutboxRepository outboxRepository
+            IOutboxRepository outboxRepository,
+            IUserRepository userRepository
             )
         {
             _tokenGenerator = tokenGenerator;
             _outboxRepository = outboxRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var token = _tokenGenerator.GenerateToken(request.Username, "User");
+            var token = _tokenGenerator.GenerateToken(request.Username, ["User"]);
             var integrationEvent = new UserLoggedInIntegrationEvent(request.Username);
             var outboxMessage = new OutboxMessage
             {

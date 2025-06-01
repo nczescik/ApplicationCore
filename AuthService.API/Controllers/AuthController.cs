@@ -1,6 +1,6 @@
-﻿using AuthService.Application.Authentication.Commands.Login;
+﻿using AuthService.Application.CQRS.Authentication.Commands.Login;
+using AuthService.Application.CQRS.User.Commands.CreateUser;
 using AuthService.Application.DTOs;
-using AuthService.Application.User.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

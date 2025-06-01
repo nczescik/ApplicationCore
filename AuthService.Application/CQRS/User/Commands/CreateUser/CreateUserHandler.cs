@@ -1,13 +1,10 @@
-﻿using MediatR;
+﻿using AuthService.Application.CQRS.User.Events;
+using MediatR;
 using Newtonsoft.Json;
-using Shared.Infrastructure.Messaging.Outbox;
-using Shared.Infrastructure.Messaging.Outbox.Repository;
-using AuthService.Application.User.Events;
-using AuthService.Application.User.Commands.CreateUser;
-using AuthService.Infrastructure.Persistance.Users;
+using Shared.Application.Messaging.Outbox;
 using System.Transactions;
 
-namespace AuthService.Application.Users.Commands.CreateUser
+namespace AuthService.Application.CQRS.User.Commands.CreateUser
 {
     public class CreateUserHandler : IRequestHandler<CreateUserCommand, Guid>
     {

@@ -1,6 +1,4 @@
-﻿using Shared.Infrastructure.Messaging.Outbox;
-
-namespace Shared.Infrastructure.Messaging.Outbox.Repository
+﻿namespace Shared.Application.Messaging.Outbox
 {
     public interface IOutboxRepository
     {

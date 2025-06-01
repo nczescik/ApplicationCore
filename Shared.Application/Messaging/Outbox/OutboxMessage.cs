@@ -1,4 +1,4 @@
-﻿namespace Shared.Infrastructure.Messaging.Outbox
+﻿namespace Shared.Application.Messaging.Outbox
 {
     public class OutboxMessage
     {

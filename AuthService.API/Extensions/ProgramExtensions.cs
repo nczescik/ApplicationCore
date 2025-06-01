@@ -1,5 +1,6 @@
-﻿using AuthService.Application.Authentication.Commands.Login;
-using AuthService.Application.User.Queries.GetUser;
+﻿using AuthService.Application.CQRS.Authentication.Commands.Login;
+using AuthService.Application.CQRS.User;
+using AuthService.Application.CQRS.User.Queries.GetUser;
 using AuthService.Infrastructure.Persistance;
 using AuthService.Infrastructure.Persistance.Users;
 using AuthService.Infrastructure.Security.JWT;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
+using Shared.Application.Messaging.Outbox;
 using Shared.Infrastructure.Messaging.Outbox;
 using Shared.Infrastructure.Messaging.Outbox.Repository;
 using Shared.Infrastructure.Messaging.RabbitMQ;

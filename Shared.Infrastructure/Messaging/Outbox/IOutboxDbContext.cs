@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared.Application.Messaging.Outbox;
 
 namespace Shared.Infrastructure.Messaging.Outbox
 {
